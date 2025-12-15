@@ -1,1 +1,44 @@
-<p>navbar works!</p>
+
+<nav
+  class="sticky top-4 z-50 mx-auto max-w-6xl
+         rounded-full p-2
+         bg-white/10 backdrop-blur-xl
+         border border-white/20
+         shadow-lg shadow-black/20
+         ring-1 ring-white/10
+         text-black"
+>
+  <div class="flex items-center justify-between px-4">
+    <!-- Brand (Left) -->
+    <div class="text-2xl md:text-3xl font-semibold tracking-wide select-none">
+      <a routerLink="/"
+          routerLinkActive="active-link">IdeaBoard</a>
+    </div>
+
+    <!-- Links (Right) -->
+    <ul class="flex items-center gap-6 md:gap-8">
+      <li>
+        <a
+          routerLink="/Signin"
+          routerLinkActive="active-link"
+          [routerLinkActiveOptions]="{ exact: true }"
+          class=""
+        >
+          Signin
+        </a>
+      </li>
+      <li>
+        <a
+          routerLink="/Signup"
+          routerLinkActive="active-link"
+          [routerLinkActiveOptions]="{ exact: true }"
+          class="nav-link"
+        >
+          Signup
+        </a>
+      </li>
+    </ul>
+  </div>
+</nav>
+
+
