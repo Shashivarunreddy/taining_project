@@ -1,14 +1,13 @@
 import { Routes } from '@angular/router';
-import { AppComponent } from './app.component';
 import { Notfound404Component } from '../ui/notfound404/notfound404.component';
 import { LandingpageComponent } from '../components/landingpage/landingpage.component';
+import { authGuard } from '../guards/auth.guard';
+import { roleGuard } from '../guards/role.guard';
+import { UnauthorizedComponent } from '../ui/unauthorized/unauthorized.component';
+import { UserRole } from '../models/model';
 
 export const routes: Routes = [
-  {
-    path: '',
-    component: LandingpageComponent,
-  },
-
+  { path: '', component: LandingpageComponent },
   {
     path: 'signin',
     loadComponent: () =>
@@ -23,21 +22,29 @@ export const routes: Routes = [
         (m) => m.SignupComponent
       ),
   },
+
   {
     path: 'admin',
     loadChildren: () =>
       import('../roles/admin/admin.routes').then((m) => m.adminRoutes),
+    canActivate: [authGuard, roleGuard],
+    data: { roles: [UserRole.ADMIN] }, 
   },
   {
     path: 'employee',
     loadChildren: () =>
       import('../roles/employee/employee.routes').then((m) => m.emproutes),
+    canActivate: [authGuard, roleGuard],
+    data: { roles: [UserRole.EMPLOYEE] },
   },
-{
-  path:'manager',
-  loadChildren:()=>
-    import('../roles/manager/manager.routes').then((m)=> m.mangerroutes),
-},
+  {
+    path: 'manager',
+    loadChildren: () =>
+      import('../roles/manager/manager.routes').then((m) => m.mangerroutes),
+    canActivate: [authGuard, roleGuard],
+    data: { roles: [UserRole.MANAGER] },
+  },
 
+  { path: 'unauthorized', component: UnauthorizedComponent },
   { path: '**', component: Notfound404Component },
 ];
