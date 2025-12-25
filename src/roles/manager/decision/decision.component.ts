@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { IdeaService } from '../../../services/idea.service';
+import { AuthService } from '../../../services/auth.service';
 import { Idea, Review } from '../../../models/model';
 
 @Component({
@@ -24,19 +25,17 @@ export class DecisionComponent implements OnInit {
 
   constructor(
     private route: ActivatedRoute,
-    private ideaService: IdeaService
-  ) {}
+    private ideaService: IdeaService,
+    private authService: AuthService
+  ) { }
 
   ngOnInit(): void {
     // load user
-    try {
-      const raw = window.localStorage.getItem('currentUser');
-      const u = raw ? JSON.parse(raw) : null;
-      if (u && u.userID) {
-        this.currentUserID = u.userID;
-        this.currentUserName = u.name || '';
-      }
-    } catch {}
+    const user = this.authService.getCurrentUser();
+    if (user && user.userID) {
+      this.currentUserID = user.userID;
+      this.currentUserName = user.name || '';
+    }
 
     this.ideaService.getAllIdeas().subscribe((list) => (this.ideas = list));
 

@@ -8,6 +8,7 @@ import {
 } from '@angular/forms';
 import { RouterModule, Router } from '@angular/router';
 import { IdeaService } from '../../../services/idea.service';
+import { AuthService } from '../../../services/auth.service';
 import { UserRole } from '../../../models/model';
 
 @Component({
@@ -26,7 +27,8 @@ export class CreateideaComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private ideaService: IdeaService,
-    private router: Router
+    private router: Router,
+    private authService: AuthService
   ) {
     // Initialize form here to avoid using 'fb' before constructor runs
     this.form = this.fb.group({
@@ -38,16 +40,11 @@ export class CreateideaComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    try {
-      if (typeof window !== 'undefined' && window.localStorage) {
-        const raw = window.localStorage.getItem('currentUser');
-        const u = raw ? JSON.parse(raw) : null;
-        if (u) {
-          this.currentRole = u.role;
-          this.currentUserId = u.userID;
-        }
-      }
-    } catch {}
+    const user = this.authService.getCurrentUser();
+    if (user) {
+      this.currentRole = user.role;
+      this.currentUserId = user.userID;
+    }
   }
 
   submit() {

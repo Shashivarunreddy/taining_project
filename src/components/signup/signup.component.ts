@@ -89,10 +89,10 @@ export class SignupComponent {
         if (typeof window !== 'undefined' && window.localStorage) {
           window.localStorage.setItem('user', JSON.stringify(user));
         }
-      } catch {}
+      } catch { }
 
       // Mark app as logged in via AuthService (guards read this)
-      this.AuthService.login(role);
+      this.AuthService.login(user);
 
       this.loading = false;
 

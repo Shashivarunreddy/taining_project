@@ -4,6 +4,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { IdeaService } from '../../../services/idea.service';
+import { AuthService } from '../../../services/auth.service';
 import { Idea, Comment as IdeaComment, User } from '../../../models/model';
 
 @Component({
@@ -21,7 +22,10 @@ export class DashboardComponent implements OnInit {
   newComment = '';
   currentUser: User | null = null;
 
-  constructor(private ideaService: IdeaService) {}
+  constructor(
+    private ideaService: IdeaService,
+    private authService: AuthService
+  ) { }
 
   ngOnInit(): void {
     this.loadCurrentUser();
@@ -37,14 +41,7 @@ export class DashboardComponent implements OnInit {
   }
 
   loadCurrentUser() {
-    try {
-      if (typeof window !== 'undefined' && window.localStorage) {
-        const raw = window.localStorage.getItem('currentUser');
-        this.currentUser = raw ? JSON.parse(raw) : null;
-      }
-    } catch {
-      this.currentUser = null;
-    }
+    this.currentUser = this.authService.getCurrentUser();
   }
 
   selectIdea(idea: Idea) {

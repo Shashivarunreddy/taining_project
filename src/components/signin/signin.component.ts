@@ -69,23 +69,12 @@ export class SigninComponent {
           // Ensure user has a userID for other features
           if (!user.userID) {
             user.userID = Date.now();
-            try {
-              if (typeof window !== 'undefined' && window.localStorage) {
-                window.localStorage.setItem('user', JSON.stringify(user));
-              }
-            } catch {}
+            // In a real app, you would save this back to the backend/list of users
+            // Here we just update the local variable for this session
           }
 
-          try {
-            if (typeof window !== 'undefined' && window.localStorage) {
-              window.localStorage.setItem('currentUser', JSON.stringify(user));
-            }
-          } catch {}
-
-          // Mark app as logged in so guards work
-          try {
-            this.authService.login(user.role);
-          } catch {}
+          // Use centralized AuthService
+          this.authService.login(user);
 
           this.loading = false;
 
