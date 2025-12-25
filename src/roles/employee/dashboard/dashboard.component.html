@@ -134,10 +134,10 @@
               </div>
 
               <div *ngFor="let c of comments" class="flex gap-4 group">
-                <div class="flex-shrink-0 w-10 h-10 rounded-full bg-gradient-to-br from-purple-500 to-indigo-500 flex items-center justify-center text-white font-bold text-sm shadow-sm">
+                <div class="shrink-0 w-10 h-10 rounded-full bg-linear-to-br from-purple-500 to-indigo-500 flex items-center justify-center text-white font-bold text-sm shadow-sm">
                   {{ (c.userName || 'U').charAt(0).toUpperCase() }}
                 </div>
-                <div class="flex-grow">
+                <div class="grow">
                   <div class="bg-gray-50 p-4 rounded-2xl rounded-tl-none text-sm text-gray-700 relative group-hover:bg-gray-100 transition-colors">
                     <div class="flex justify-between items-baseline mb-1">
                       <span class="font-bold text-gray-900">{{ c.userName || 'User' }}</span>
@@ -151,10 +151,10 @@
 
             <!-- Add Comment -->
             <div *ngIf="currentUser" class="flex gap-4 items-start">
-              <div class="flex-shrink-0 w-10 h-10 rounded-full bg-indigo-600 flex items-center justify-center text-white font-bold text-sm shadow-md">
+              <div class="shrink-0 w-10 h-10 rounded-full bg-indigo-600 flex items-center justify-center text-white font-bold text-sm shadow-md">
                 {{ (currentUser.name || 'M').charAt(0).toUpperCase() }}
               </div>
-              <div class="flex-grow relative">
+              <div class="grow relative">
                 <textarea
                   [(ngModel)]="newComment"
                   rows="3"

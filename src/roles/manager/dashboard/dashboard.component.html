@@ -28,7 +28,7 @@
       <div class="flex flex-col md:flex-row md:items-start justify-between gap-6">
         
         <!-- Content -->
-        <div class="flex-grow">
+        <div class="grow">
           <div class="flex items-center gap-3 mb-2">
             <h3 class="text-xl font-bold text-gray-900">{{ idea.title }}</h3>
             <span class="px-2.5 py-0.5 rounded-full text-xs font-bold uppercase tracking-wider"
@@ -66,32 +66,15 @@
         </div>
 
         <!-- Actions -->
-        <div class="flex-shrink-0 flex flex-col items-end gap-3 min-w-[200px]">
-          <label class="text-xs font-bold text-gray-400 uppercase tracking-wide mb-1 block">Quick Actions</label>
-          
-          <!-- Status Dropdown -->
-          <div class="relative w-full">
-            <select
-              [value]="idea.status"
-              (change)="changeStatus(idea, $any($event.target).value)"
-              class="w-full appearance-none pl-3 pr-8 py-2 bg-gray-50 border border-gray-200 rounded-lg text-sm font-medium text-gray-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:bg-white transition-colors cursor-pointer"
-            >
-              <option value="Draft">Set Draft</option>
-              <option value="UnderReview">Set Under Review</option>
-              <option value="Approved">Set Approved</option>
-            </select>
-             <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-500">
-              <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
-            </div>
-          </div>
-
+        <div class="shrink-0 flex flex-col items-end gap-3 min-w-[200px] justify-center">
           <!-- Review Button -->
           <a
             [routerLink]="['/manager/decision']"
             [queryParams]="{ id: idea.ideaID }"
-            class="w-full text-center px-4 py-2 bg-indigo-600 text-white text-sm font-bold rounded-lg hover:bg-indigo-700 transition-colors shadow-sm hover:shadow-indigo-200"
+            class="w-full text-center px-6 py-3 bg-indigo-600 text-white font-bold rounded-xl hover:bg-indigo-700 transition-all shadow-md hover:shadow-indigo-300 flex items-center justify-center gap-2"
           >
-            Review Details
+            <span>Review Details</span>
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
           </a>
         </div>
 

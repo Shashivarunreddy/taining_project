@@ -14,13 +14,11 @@ import { Idea } from '../../../models/model';
 export class DashboardComponent implements OnInit {
   ideas: Idea[] = [];
 
-  constructor(private ideaService: IdeaService) {}
+  constructor(private ideaService: IdeaService) { }
 
   ngOnInit(): void {
     this.ideaService.getAllIdeas().subscribe((list) => (this.ideas = list));
   }
 
-  changeStatus(idea: Idea, status: 'Draft' | 'UnderReview' | 'Approved') {
-    this.ideaService.setIdeaStatus(idea.ideaID, status);
-  }
+
 }
