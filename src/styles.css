@@ -1,3 +1,6 @@
 
 @import "tailwindcss";
 
+/* Global base styles (avoid @apply to prevent build-time @rules issues) */
+
+

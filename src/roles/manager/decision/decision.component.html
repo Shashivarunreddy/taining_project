@@ -1,1 +1,68 @@
-<p>decision works!</p>
+<div class="container mx-auto p-6">
+	<div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+		<div class="md:col-span-1 bg-white p-4 rounded shadow">
+			<h4 class="font-semibold mb-3">Ideas</h4>
+			<ul class="space-y-2">
+				<li *ngFor="let idea of ideas" class="p-2 rounded hover:bg-gray-100 cursor-pointer" (click)="select(idea)">
+					<div class="font-medium">{{idea.title}}</div>
+					<div class="text-xs text-gray-500">{{idea.status}}</div>
+				</li>
+			</ul>
+		</div>
+
+		<div class="md:col-span-2 bg-white p-6 rounded shadow" *ngIf="selected; else pickOne">
+			<div class="flex items-start justify-between">
+				<div>
+					<h3 class="text-xl font-semibold">Review: {{selected.title}}</h3>
+					<p class="text-gray-700 mt-2">{{selected.description}}</p>
+					<div class="text-sm text-gray-500 mt-2">Votes: <span class="font-medium text-green-600">👍 {{selected.upvotes || 0}}</span> <span class="ml-2 font-medium text-red-600">👎 {{selected.downvotes || 0}}</span></div>
+				</div>
+			</div>
+
+			<div class="mt-4">
+				<label class="block text-sm font-medium text-gray-700">Decision</label>
+				<select [(ngModel)]="decision" class="mt-1 p-2 border rounded">
+					<option value="Approve">Approve</option>
+					<option value="Reject">Reject</option>
+				</select>
+			</div>
+
+			<div class="mt-4">
+				<label class="block text-sm font-medium text-gray-700">Feedback</label>
+				<textarea [(ngModel)]="feedback" rows="4" class="w-full p-2 border rounded mt-1"></textarea>
+			</div>
+
+			<div class="mt-4 flex gap-2">
+				<button (click)="submitReview()" class="px-4 py-2 bg-indigo-700 text-white rounded">Submit Review</button>
+			</div>
+
+			<div class="mt-6 grid grid-cols-1 md:grid-cols-2 gap-6">
+				<div>
+					<h4 class="font-semibold">Comments</h4>
+					<ul class="space-y-2 mt-2">
+						<li *ngFor="let c of comments" class="p-2 border rounded">
+							<div class="text-sm font-medium">{{ c.userName || ('User ' + c.userID) }}</div>
+							<div class="text-xs text-gray-400">{{ c.createdDate | date:'short' }}</div>
+							<div class="mt-2 text-gray-700">{{ c.text }}</div>
+						</li>
+					</ul>
+				</div>
+
+				<div>
+					<h4 class="font-semibold">Previous Reviews</h4>
+					<ul class="space-y-2 mt-2">
+						<li *ngFor="let r of reviews" class="p-2 border rounded">
+							<div class="text-sm font-medium">Decision: {{r.decision}}</div>
+							<div class="text-xs text-gray-500">By: {{r.reviewerName || r.reviewerID}} • {{r.reviewDate | date:'short'}}</div>
+							<div class="mt-2 text-gray-700">{{r.feedback}}</div>
+						</li>
+					</ul>
+				</div>
+			</div>
+		</div>
+
+		<ng-template #pickOne>
+			<div class="md:col-span-2 bg-white p-6 rounded shadow text-gray-500">Select an idea to review.</div>
+		</ng-template>
+	</div>
+</div>

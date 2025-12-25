@@ -2,7 +2,12 @@ import { AuthService } from './../../services/auth.service';
 
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import {
+  ReactiveFormsModule,
+  FormBuilder,
+  FormGroup,
+  Validators,
+} from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
 import { UserRole } from '../../models/model';
 
@@ -19,7 +24,11 @@ export class SignupComponent {
   showPass = false;
   showConfirmPass = false;
 
-  constructor(private fb: FormBuilder, private router: Router, private AuthService: AuthService) {
+  constructor(
+    private fb: FormBuilder,
+    private router: Router,
+    private AuthService: AuthService
+  ) {
     this.form = this.fb.group(
       {
         name: ['', [Validators.required, Validators.minLength(3)]],
@@ -66,15 +75,21 @@ export class SignupComponent {
         : UserRole.EMPLOYEE;
 
       // Save mock user (including password so signin can validate in this demo app)
-      localStorage.setItem(
-        'user',
-        JSON.stringify({
-          name: data.name,
-          email: data.email,
-          role,
-          password: data.password,
-        })
-      );
+      const user: any = {
+        name: data.name,
+        email: data.email,
+        role,
+        password: data.password,
+      };
+
+      // ensure a stable userID is present
+      user.userID = Date.now();
+
+      try {
+        if (typeof window !== 'undefined' && window.localStorage) {
+          window.localStorage.setItem('user', JSON.stringify(user));
+        }
+      } catch {}
 
       // Mark app as logged in via AuthService (guards read this)
       this.AuthService.login(role);

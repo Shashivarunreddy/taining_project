@@ -23,12 +23,13 @@ export const routes: Routes = [
       ),
   },
 
+
   {
     path: 'admin',
     loadChildren: () =>
       import('../roles/admin/admin.routes').then((m) => m.adminRoutes),
     canActivate: [authGuard, roleGuard],
-    data: { roles: [UserRole.ADMIN] }, 
+    data: { roles: [UserRole.ADMIN] },
   },
   {
     path: 'employee',

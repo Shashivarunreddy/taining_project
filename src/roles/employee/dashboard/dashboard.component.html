@@ -1,1 +1,122 @@
-<p>dashboard works!</p>
+
+<div class="container mx-auto p-6">
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+    <!-- Ideas List -->
+    <div class="bg-white rounded-xl shadow-lg p-6 border border-gray-200">
+      <h3 class="text-2xl font-bold mb-4 text-black">Ideas</h3>
+
+      <div *ngIf="!ideas.length" class="text-gray-500 italic">No ideas yet.</div>
+
+      <ul class="space-y-4">
+        <li
+          *ngFor="let idea of ideas"
+          class="p-4 border border-gray-200 rounded-lg hover:shadow-md transition"
+        >
+          <a
+            href="javascript:void(0)"
+            (click)="selectIdea(idea)"
+            class="text-lg font-semibold text-indigo-700 hover:underline"
+          >
+            {{ idea.title }}
+          </a>
+
+          <div class="text-sm text-gray-600 mt-1">
+            Status:
+            <span class="font-medium text-black">{{ idea.status }}</span> •
+            Category:
+            <span class="font-medium">{{ idea.category || '—' }}</span>
+          </div>
+
+          <div class="flex gap-4 mt-3">
+            <button
+              (click)="upvote(idea)"
+              class="flex items-center gap-1 px-3 py-1 bg-indigo-700 text-white rounded hover:bg-indigo-800 transition"
+            >
+              👍 {{ idea.upvotes || 0 }}
+            </button>
+            <button
+              (click)="downvote(idea)"
+              class="flex items-center gap-1 px-3 py-1 bg-gray-200 text-black rounded hover:bg-gray-300 transition"
+            >
+              👎 {{ idea.downvotes || 0 }}
+            </button>
+          </div>
+        </li>
+      </ul>
+    </div>
+
+    <!-- Idea Details -->
+    <div
+      class="bg-white rounded-xl shadow-lg p-6 border border-gray-200"
+      *ngIf="selected"
+    >
+      <h3 class="text-2xl font-bold mb-2 text-black">{{ selected.title }}</h3>
+      <p class="text-gray-700 mb-4">{{ selected.description }}</p>
+
+      <div class="text-sm text-gray-600 mb-4">
+        Submitted:
+        <span class="font-medium">{{ selected.submittedDate | date: 'short' }}</span>
+        • By:
+        <span class="font-medium">{{ selected.submittedByUserID }}</span>
+        • Status:
+        <span class="font-medium">{{ selected.status }}</span>
+      </div>
+
+      <hr class="my-4" />
+
+      <!-- Comments -->
+      <h4 class="text-xl font-semibold mb-3 text-black">Comments</h4>
+      <div *ngIf="!comments.length" class="text-gray-500 italic">No comments yet.</div>
+
+      <ul class="space-y-3 mb-4">
+        <li *ngFor="let c of comments" class="border-b border-gray-100 pb-2">
+          <div class="flex justify-between text-sm text-gray-600">
+            <strong class="text-black">{{ c.userName || ('User ' + c.userID) }}</strong>
+            <small>{{ c.createdDate | date: 'short' }}</small>
+          </div>
+          <div class="text-gray-700 mt-1">{{ c.text }}</div>
+        </li>
+      </ul>
+
+      <!-- Add Comment -->
+      <div *ngIf="currentUser" class="space-y-2">
+        <label class="block text-sm font-medium text-gray-700">Add comment</label>
+        <textarea
+          [(ngModel)]="newComment"
+          rows="3"
+          placeholder="Write a comment..."
+          class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-700"
+        ></textarea>
+        <div>
+          <button
+            (click)="addComment()"
+            class="px-4 py-2 bg-indigo-700 text-white rounded hover:bg-indigo-800 transition"
+          >
+            Post
+          </button>
+        </div>
+      </div>
+
+      <div *ngIf="!currentUser" class="text-gray-500 italic">
+        Please sign in to comment or vote.
+      </div>
+
+      <!-- Manager Reviews (visible to all users) -->
+      <div class="mt-6">
+        <h4 class="text-xl font-semibold mb-3 text-black">Manager Reviews</h4>
+        <div *ngIf="!reviews.length" class="text-gray-500 italic">No reviews yet.</div>
+
+        <ul class="space-y-3 mt-2">
+          <li *ngFor="let r of reviews" class="p-3 border rounded">
+            <div class="flex justify-between items-baseline">
+              <div class="text-sm font-medium">{{ r.reviewerName || ('Reviewer ' + r.reviewerID) }}</div>
+              <div class="text-xs text-gray-400">{{ r.reviewDate | date:'short' }}</div>
+            </div>
+            <div class="text-sm text-gray-600 mt-1">Decision: <span class="font-medium">{{ r.decision }}</span></div>
+            <div class="mt-2 text-gray-700">{{ r.feedback }}</div>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
